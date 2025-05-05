@@ -101,7 +101,70 @@ for arg in $@; do
     esac
 done
 
-processargs()
+process_link_opts()
+{
+    shift # -Wl
+    while true; do
+        case $1 in
+        ---)
+            break;
+            ;;
+
+        --dynamicbase)
+            linkopt+=("${slash}DYNAMICBASE")
+            ;;
+
+        --disable-dynamicbase)
+            linkopt+=("${slash}DYNAMICBASE:NO")
+            ;;
+
+        --gc-sections)
+            linkopt+=("${slash}OPT:REF")
+            ;;
+
+        --icf)
+            linkopt+=("${slash}OPT:ICF")
+            ;;
+
+        --nxcompat)
+            linkopt+=("${slash}NXCOMPAT")
+            ;;
+
+        --disable-nxcompat)
+            linkopt+=("${slash}NXCOMPAT:NO")
+            ;;
+
+        --high-entropy-va)
+            linkopt+=("${slash}HIGHENTROPYVA")
+            ;;
+
+        --disable-high-entropy-va)
+            linkopt+=("${slash}HIGHENTROPYVA:NO")
+            ;;
+
+        --output-def)
+            shift
+            linkopt+=()
+            ;;
+
+        --out-implib)
+            shift
+            linkopt+=("${slash}IMPLIB:${1/%.a/.lib}")
+            ;;
+
+        -Bshareable | -shared | --dll)
+            linkopt+=("${slash}DLL")
+            ;;
+
+        *)
+            linkopt+=("$1")
+            ;;
+        esac
+        shift
+    done
+}
+
+process_opts()
 {
 ### Run through every option and convert it to the proper MS one
 while test $# -gt 0; do
@@ -293,10 +356,8 @@ EOF
         ;;
 
     -Wl,*)
-        IFS=',' read -ra linkopt2 <<< "$(echo $1 | sed 's/-Wl,//')"
-        for linkarg in ${linkopt2[@]}; do
-            linkopt+=("${linkarg}")
-        done
+        IFS=',' read -ra linkopt2 <<< "$1"
+        process_link_opts "${linkopt2[@]}" ---
         ;;
 
     -Werror)
@@ -394,9 +455,7 @@ done
 
 # Whitespace in paths is dealt with by setting IFS and using bash arrays
 # Except additional arguments in CCCL_OPTIONS need to be space separated
-processargs $CCCL_OPTIONS
-IFS=""
-processargs $@
+process_opts ${CCCL_OPTIONS[@]} $@
 
 if test $shared_index -ge 0 -a -n "$debug"; then
     clopt[$shared_index]="${slash}LDd"
