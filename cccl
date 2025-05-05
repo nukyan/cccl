@@ -168,11 +168,27 @@ EOF
         ;;
 
     -O0)
-        clopt+=("${slash}Ot")
+        clopt+=("${slash}Od")
         ;;
 
     -O2)
+        clopt+=("${slash}Ox")
+        ;;
+
+    -O3)
         clopt+=("${slash}O2")
+        ;;
+
+    -Ofast)
+        clopt+=("${slash}O2" "${slash}fp:fast")
+        ;;
+
+    -Os)
+        clopt+=("${slash}O1")
+        ;;
+
+    -Oz)
+        clopt+=("${slash}Os")
         ;;
 
     -L)
@@ -310,12 +326,7 @@ EOF
         #ignore aliasing
         ;;
 
-    -isystem)
-        shift
-        clopt+=("${slash}I$1")
-        ;;
-
-    -I)
+    -isystem | -I)
         shift
         clopt+=("${slash}I$1")
         ;;
@@ -351,7 +362,7 @@ EOF
         fi
         ;;
 
-    *.cc | *.cxx | *.C)
+    *.cc | *.cxx | *.C | *.c++)
         # C++ source file with non .cpp extension, make sure cl understand 
         # that it is C++
         clopt+=("${slash}Tp$1")
