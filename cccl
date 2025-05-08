@@ -106,7 +106,7 @@ process_link_opts()
     shift # -Wl
     while true; do
         case $1 in
-        ---)
+        --)
             break;
             ;;
 
@@ -149,7 +149,7 @@ process_link_opts()
 
         --out-implib)
             shift
-            linkopt+=("${slash}IMPLIB:${1/%.a/.lib}")
+            linkopt+=("${slash}IMPLIB:$1")
             ;;
 
         -Bshareable | -shared | --dll)
@@ -357,7 +357,7 @@ EOF
 
     -Wl,*)
         IFS=',' read -ra linkopt2 <<< "$1"
-        process_link_opts "${linkopt2[@]}" ---
+        process_link_opts "${linkopt2[@]}" --
         ;;
 
     -Werror)
