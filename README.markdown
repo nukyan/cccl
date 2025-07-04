@@ -432,9 +432,21 @@ The following Unix compiler cc/gcc options are understood by cccl:
  - **-pedantic** Removed/ignored, cl.exe does not support any equivalent
  - **-std=_standard_** Converts to cl.exe' **/std:_standard_** for **c++14**, **gnu++14**, **c11**, **gnu11** and later **standard**, otherwise removed/ignored 
  - **-Wl,<option1>(,<option2>)** Options are passed to the linker
+    - **--dynamicbase** Converts to link.exe's **/DYNAMICBASE**
+    - **--disable-dynamicbase** Converts to link.exe's **/DYNAMICBASE:NO**
+    - **--gc-sections** Converts to link.exe's **/OPT:REF**
+    - **--icf** Converts to link.exe's **/OPT:ICF**
+    - **--nxcompat** Converts to link.exe's **/NXCOMPAT**
+    - **--disable-nxcompat** Converts to link.exe's **/NXCOMPAT:NO**
+    - **--high-entropy-va** Converts to link.exe's **/HIGHENTROPYVA**
+    - **--disable-high-entropy-va** Converts to link.exe's **/HIGHENTROPYVA:NO**
+    - **--out-implib** Converts to link.exe's **/IMPLIB**
  - **-Werror** Converts to cl.exe's **/WX**
  - **-W** Remaining warnings removed/ignored, please provide **/W** options for warning control
  - **-fno-strict-aliasing** Removed/ignored
+ - **-flto** Converted to **/GL**
+ - **-fdata-sections** Converted to **/Gw**
+ - **-ffunction-sections** Converted to **/Gy**
  - **-isystem** Converted to **/I**
  - **-include** Converted to **/FI**
  - **-MT** Due to conflict with cl.exe's **/MT** option, there is no support and cccl exits

@@ -142,11 +142,6 @@ process_link_opts()
             linkopt+=("${slash}HIGHENTROPYVA:NO")
             ;;
 
-        --output-def)
-            shift
-            linkopt+=()
-            ;;
-
         --out-implib)
             shift
             linkopt+=("${slash}IMPLIB:$1")
@@ -367,8 +362,24 @@ EOF
         #ignore remaining warnings
         ;;
 
-    -fno-strict-aliasing*)
-        #ignore aliasing
+    -f*)
+        case $1 in
+        -fno-strict-aliasing*)
+            #ignore aliasing
+            ;;
+
+        -flto | -flto=*)
+            clopt+=("${slash}GL")
+            ;;
+
+        -fdata-sections)
+            clopt+=("${slash}Gw")
+            ;;
+
+        -ffunction-sections)
+            clopt+=("${slash}Gy")
+            ;;
+        esac
         ;;
 
     -isystem)
