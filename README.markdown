@@ -422,6 +422,10 @@ The following Unix compiler cc/gcc options are understood by cccl:
  - **-dumpversion** Version of cl.exe based on info in copyright banner
  - **-g**[0-9] Converts to cl.exe's **/Zi**
  - **-O0** Converts to cl.exe's **/Ot** optimization option
+ - **-O2** and **-O3** Converts to cl.exe's **/O2** optimization option
+ - **-Ofast** Converts to cl.exe's **/O2** and **/fp:fast** optimization option
+ - **-Os** Converts to cl.exe's **/O1** optimization option
+ - **-Oz** Converts to cl.exe's **/Os** optimization option
  - **-L<i>path</i>** Converts to linker option **/LIBPATH:_path_**
  - **-l<i>library</i>** Converts to **lib_library_.lib** (except **-link**)
  - **-m386** Converts to cl.exe's **/G3**

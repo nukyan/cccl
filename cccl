@@ -168,11 +168,11 @@ EOF
         ;;
 
     -O0)
-        clopt+=("${slash}Od")
+        clopt+=("${slash}Ot")
         ;;
 
     -O2)
-        clopt+=("${slash}Ox")
+        clopt+=("${slash}O2")
         ;;
 
     -O3)
